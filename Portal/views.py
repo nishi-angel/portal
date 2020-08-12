@@ -79,9 +79,25 @@ def register(request):
         usr.last_name = last
         usr.save()
         
-       
+        
         reg = Register(user=usr, contact_number=con, fathers_name=fat, address=add, gender=gen, designation= desig, blood_group= bloodg , about=about)
         reg.save()
+
+        if "image" in request.FILES:
+            img = request.FILES["image"]
+            reg = Register(profile_pic = img)
+            reg.save()
+  
+        alert = {
+        "username": request.GET.get('username', ''),
+        }
+
+        if request.method == 'POST':
+            un = request.POST.get('username', '')
+
+        if User.objects.filter(username = request.POST['username']).exists():
+            alert['username'] = "Username already exists"
+
         return render(request,"register.html",{"status":" {} your Account created Successfully".format(fname)})
     return render(request,"register.html")
                 
@@ -130,3 +146,14 @@ def edit_profile(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect("/")                
+
+
+
+def check_user(request):
+    if request.method=="GET":
+        un = request.GET["usern"]
+        check = User.objects.filter(username=un)
+        if len(check) == 1:
+            return HttpResponse("Exists")
+        else:
+            return HttpResponse("Not Exists")    

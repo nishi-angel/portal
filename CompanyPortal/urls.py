@@ -10,7 +10,7 @@ urlpatterns = [
  
    url(r'^admin/', admin.site.urls),
    url(r'',  include('Portal.urls')),
-   url(r'^accounts/', include('allauth.urls')),
+   # url(r'^accounts/', include('allauth.urls')),
    
 
    

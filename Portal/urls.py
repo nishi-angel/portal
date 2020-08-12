@@ -24,6 +24,7 @@ urlpatterns = [
     url(r"^register/$", register, name = "register"),
     url(r"^edit_profile/$", edit_profile, name= "edit_profile"),
     url(r"^logout/$", user_logout, name = "logout"),
+    path("check_user/",views.check_user,name="check_user"),
     
    
     

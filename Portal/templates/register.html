@@ -13,7 +13,7 @@
               <div class="col-lg-3 col-sm-4">
                 <div class="form-group">
                   <label for="exampleInput1" class="bmd-label-floating">Enter Username</label>
-                  <input type="text" class="form-control" id="exampleInput1" name="username" required>
+                  <input type="text" class="form-control" name="username" id="username" onkeyup="checkuser()" required>
                   <span class="bmd-help"></span>
                 </div>
               </div>
@@ -182,6 +182,29 @@
 </div>
 
 </form>
+<script>
+  function checkuser(){
+      let un = document.getElementById("username").value;
+      $.ajax({
+          url:"{% url 'check_user' %}",
+          type:"get",
+          data:{usern:un},
+          success:function(data){
+              if(data=="Exists"){
+                  $("#result").html("This username already taken").addClass("text-danger");
+                  $("#username").addClass("alert alert-danger");
+                  $("#submitbtn").attr("disabled","disabled");
+              }else{
+                  $("#result").html("");
+                  $("#username").removeClass("alert alert-danger")
+                  $("#submitbtn").removeAttr("disabled");
+              }
+          }
+      })
+      
+  }
+</script>
+
 {% if status %}
     <script>
         alert("{{status}}");
